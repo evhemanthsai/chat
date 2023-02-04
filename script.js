@@ -16,10 +16,10 @@ form.addEventListener("submit", e => {
   messageElement.textContent = message;
   chatArea.appendChild(messageElement);
 
-  fetch("https://api.github.com/repos/{your_username}/{your_repo}/contents/data.json", {
+  fetch("https://api.github.com/repos/{evhemanthsai}/{chat}/contents/data.json", {
     method: "PUT",
     headers: {
-      "Authorization": "Bearer {your_token}",
+      "Authorization": "Bearer {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}",
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
@@ -37,7 +37,7 @@ form.addEventListener("submit", e => {
 });
 
 window.addEventListener("load", () => {
-  fetch("https://api.github.com/repos/{your_username}/{your_repo}/contents/data.json")
+  fetch("https://api.github.com/repos/{evhemanthsai}/{chat}/contents/data.json")
     .then(response => {
       if (!response.ok) {
         throw new Error("Failed to load data");
