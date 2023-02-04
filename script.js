@@ -8,7 +8,20 @@ form.addEventListener("submit", e => {
   const message = input.value;
   input.value = "";
 
+  const messages = JSON.parse(localStorage.getItem("messages")) || [];
+  messages.push(message);
+  localStorage.setItem("messages", JSON.stringify(messages));
+
   const messageElement = document.createElement("p");
   messageElement.textContent = message;
   chatArea.appendChild(messageElement);
+});
+
+window.addEventListener("load", () => {
+  const messages = JSON.parse(localStorage.getItem("messages")) || [];
+  messages.forEach(message => {
+    const messageElement = document.createElement("p");
+    messageElement.textContent = message;
+    chatArea.appendChild(messageElement);
+  });
 });
