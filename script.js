@@ -16,10 +16,45 @@ form.addEventListener("submit", e => {
   messageElement.textContent = message;
   chatArea.appendChild(messageElement);
 
+  updateData();
+});
+
+window.addEventListener("load", () => {
+  loadData();
+  setInterval(loadData, 1000);
+});
+
+function loadData() {
+  fetch("https://api.github.com/repos/{evhemanthsai}/{chat}/contents/data.json")
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Failed to load data");
+      }
+      return response.json();
+    })
+    .then(data => {
+      const messages = JSON.parse(atob(data.content));
+      localStorage.setItem("messages", JSON.stringify(messages));
+
+      chatArea.innerHTML = "";
+      messages.forEach(message => {
+        const messageElement = document.createElement("p");
+        messageElement.textContent = message;
+        chatArea.appendChild(messageElement);
+      });
+    })
+    .catch(error => {
+      console.error(error);
+    });
+}
+
+function updateData() {
+  const messages = JSON.parse(localStorage.getItem("messages")) || [];
+
   fetch("https://api.github.com/repos/{evhemanthsai}/{chat}/contents/data.json", {
     method: "PUT",
     headers: {
-      "Authorization": "Bearer {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}",
+      "Authorization": "Bearer {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}",
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
@@ -34,25 +69,4 @@ form.addEventListener("submit", e => {
   .catch(error => {
     console.error(error);
   });
-});
-
-window.addEventListener("load", () => {
-  fetch("https://api.github.com/repos/{evhemanthsai}/{chat}/contents/data.json")
-    .then(response => {
-      if (!response.ok) {
-        throw new Error("Failed to load data");
-      }
-      return response.json();
-    })
-    .then(data => {
-      const messages = JSON.parse(atob(data.content));
-      messages.forEach(message => {
-        const messageElement = document.createElement("p");
-        messageElement.textContent = message;
-        chatArea.appendChild(messageElement);
-      });
-    })
-    .catch(error => {
-      console.error(error);
-    });
-});
+}
