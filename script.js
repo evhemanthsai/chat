@@ -54,7 +54,7 @@ function updateData() {
   fetch("https://api.github.com/repos/{evhemanthsai}/{chat}/contents/data.json", {
     method: "PUT",
     headers: {
-      "Authorization": "Bearer {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}",
+      "Authorization": "Bearer {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}",
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
